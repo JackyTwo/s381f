@@ -1,0 +1,14 @@
+<HTML>
+	<head>
+     	<title>Form</title>
+
+
+   	</head>
+   <body>
+   		
+   	<h1>User: <%=global.userNow%></h1>
+   	<h1>Showing <%=global.rnum%> documents</h1>
+	<a  id ="create" href="/restaurant/new">Create Your Account</a>
+   </body>
+</HTML>
+

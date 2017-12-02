@@ -1,0 +1,61 @@
+<HTML>
+	<head>
+     	<title>Form</title>
+
+	
+
+   	</head>
+
+<style>
+ol[id=a] {
+    width: 25%;
+    padding: 12px 20px;
+    margin-top: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+input[type=button] {
+    width: 10%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #F5F6CE;
+    padding: 55px;
+    
+}
+
+
+
+</style>
+
+   <body>
+
+	
+   	<h1>Welcome, User: <%=username%></h1>
+
+	<div>
+	<H1>Showing <%= r.length %> Restaurant(s) List: <%= list %></H2> 
+		<ul> <h1>
+			<% for (var i in r) { %>
+			  <li><a href='/display?_id=<%= r[i]._id %>'><%= r[i].restaurantName %></a></li> 
+			<% } %><br>
+		</h1></ul> 
+		<input type="button" class="btn btn-primary"onclick="javascript:location.href='/restaurant/new'" value="ADD">
+		<input type="button" class="btn btn-primary"onclick="javascript:location.href='/logout'" value="Logout">
+	</div>
+ </body>
+</HTML>
+

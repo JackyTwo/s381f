@@ -1,0 +1,14 @@
+mongo ds121456.mlab.com:21456/project -u 001 -p 001
+
+db.createCollection("user")
+db.createCollection("restaurants")
+
+db.user.insert([
+{username: "demo", password: ""},
+{username: "s1178753", password: "Aa93522920"}
+])
+
+db.restaurants.insert([
+{},
+{}
+])

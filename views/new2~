@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>New</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+input[type=text],<!DOCTYPE html><html>
+
+<body><div class="w3-container w3-green">    
+<form action="fileupload" method="post" enctype="multipart/form-data">
+Title: <input type="text" name="title" minlength=1><br>
+<input type="file" name="filetoupload"><br>
+<input type="submit">
+</form>
+</div></body></html>    select {
+    width: 25%;
+    padding: 12px 20px;
+    margin-top: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=number] {
+    width: 25%;
+    padding: 12px 20px;
+    margin-top: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 10%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #A9F5BC;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #D0D594;
+    padding: 55px;
+    border: 3px solid #73AD21;
+}
+</style>
+<body style="background-color:#E6D584;">
+
+<h1>Add New Restaurant</h1>
+
+<div>
+    <form action="/restaurant/create" method="POST" enctype="multipart/form-data">
+    	<label>Restaurant Name</label><br>
+	
+   	<input type="text" id="rtname" name="rtname" placeholder="Restaurant name.."  ><br>
+
+   	<label>Borough</label><br>
+    	<input type="text" id="borough" name="borough" placeholder="Borough name.." ><br>
+
+	<label>Cuisine</label><br>
+    	<input type="text" id="cuisine" name="cuisine" placeholder="Cuisine name.." ><br>
+
+	<label>Street</label><br>
+    	<input type="text" id="street" name="street" placeholder="Street name.." ><br>
+
+	<label>Building</label><br>
+    	<input type="text" id="building" name="building" placeholder="Building name.." ><br>
+
+	<label>Zipcode</label><br>
+    	<input type="text"  id="zipcode" name="zipcode" placeholder="Zipcode.." ><br>
+
+	<label>GPS Coordinates (Latitude)</label><br>
+    	<input  name="lat" id="lat" placeholder="Latitude..." ><br>
+
+	<label>GPS Coordinates (Longtitude)</label><br>
+    	<input  name="lon" id="lon" placeholder="Longtitude..." ><br>
+
+	<label>Owner: <%=global.userNow%></label><br>	<br>	
+	<input type="file" name="filetoupload" accept="image/*" onchange="loadImageFileAsURL()" ><br>
+
+    	<input type="submit" value="Submit">
+  </form>
+  <form action="/restaurant" method="POST">
+    	<input type="submit" value="Back">
+  </form>
+</div>
+
+</body>
+</html>
