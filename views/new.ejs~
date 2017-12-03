@@ -83,10 +83,10 @@ div {
     	<input type="text"  id="zipcode" name="zipcode" placeholder="Zipcode.." ><br>
 
 	<label>GPS Coordinates (Latitude)</label><br>
-    	<input type="number" step="any" class="form-control" name="lat" id="lat" placeholder="Latitude..." ><br>
+    	<input  name="lat" id="lat" placeholder="Latitude..." ><br>
 
 	<label>GPS Coordinates (Longtitude)</label><br>
-    	<input type="number" step="any" class="form-control" name="lon" id="lon" placeholder="Longtitude..." ><br>
+    	<input  name="lon" id="lon" placeholder="Longtitude..." ><br>
 
 	<label>Owner: <%=global.userNow%></label><br>	<br>	
 	<input type="file" name="filetoupload" accept="image/*" onchange="loadImageFileAsURL()" ><br>

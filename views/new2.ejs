@@ -65,7 +65,7 @@ div {
     <form action="/restaurant/edit/<%= r._id%>" method="POST" enctype="multipart/form-data">
     	<label>Restaurant Name</label><br>
 	
-   	<input type="text" id="rtname" name="rtname" placeholder="Restaurant name.."  value = "<%= r.restaurantName %>"><br>
+   	<input type="text" id="rtname" name="rtname" placeholder="Restaurant name.."  value = "<%= r.restaurantName %>" required><br>
 
    	<label>Borough</label><br>
     	<input type="text" id="borough" name="borough" placeholder="Borough name.." value = "<%= r.borough %>"><br>
@@ -88,9 +88,9 @@ div {
 	<label>GPS Coordinates (Longtitude)</label><br>
     	<input  name="lon" id="lon" placeholder="Longtitude..." value = "<%= r.address.coord[1] %>" ><br>
 
-
-
-
+	<label>Owner: <%=username%></label><br>
+	<label>Upload new image (if need)</label><br>
+	<input type="file" name="filetoupload" accept="image/*" onchange="loadImageFileAsURL()" ><br><br>
     	<input type="submit" value="Submit">
   </form>
   <form action="/restaurant" method="POST">

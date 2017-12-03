@@ -93,7 +93,8 @@ MongoClient.connect(mongoUrl, function(err, db){
 	}
 	app.post('/restaurant/create', function(req,res) {
 	  console.log(req.body.rtname); 
-	if (req.files.filetoupload) {
+//-------------------------no upload and upload image-----------------------------------------
+	 if (req.files.filetoupload) {
 		var file = req.files.filetoupload,
 	
 		   filename = file.name;
@@ -107,7 +108,8 @@ MongoClient.connect(mongoUrl, function(err, db){
 			   console.log("Done!")
 			}
 		})}
-	}
+	 }
+//---------------------------------------------------------------------------------------------
 	
 	  var rtname = (req.body.rtname.length > 0) ? req.body.rtname : "";
 	  var borough = (req.body.borough.length > 0) ? req.body.borough : "";
@@ -149,7 +151,7 @@ MongoClient.connect(mongoUrl, function(err, db){
 		var form2 = {};
 
 		
-		console.log("Now2"+global.rnum);
+		console.log("Now2: "+global.rnum);
 		form['address'] = form2;
 		form2['street'] = street;
 		form2['zipcode'] = zipcode;
@@ -163,7 +165,7 @@ MongoClient.connect(mongoUrl, function(err, db){
 		form['restaurant_id']= global.rnum;
 
 		form['mimetype'] = mimetype;
-		form['image'];
+		form['image'] = "null";
 		form['exif'] = exif;
 		insertPhoto(db,form,function(result) {
 
@@ -178,7 +180,7 @@ MongoClient.connect(mongoUrl, function(err, db){
 		var form2 = {};
 
 		
-		console.log("Now2"+global.rnum);
+		console.log("Now2: "+global.rnum);
 		form['address'] = form2;
 		form2['street'] = street;
 		form2['zipcode'] = zipcode;
@@ -418,31 +420,121 @@ MongoClient.connect(mongoUrl, function(err, db){
 		global.r.findOne({_id: new ObjectID(id)}, function(err, result) {
 
 		    console.log(result.restaurantName);
-		    res.render('new2',{r:result})
+		    res.render('new2',{r:result,username:req.session.username})
 		  });
 
 	})
 
 	app.post("/restaurant/edit/:id", function(req,res) {
+
+	 if (req.files.filetoupload) {
+		var file = req.files.filetoupload,
+	
+		   filename = file.name;
+			mimetype = file.mimetype;
+	 if (!(typeof filename === 'undefined')){
+		file.mv("./"+filename,function(err){
+			if(err){
+				console.log(err)
+				res.send("error")
+			} else {
+			   console.log("Done!")
+			}
+		})}
+	 }
+
 		var id = req.params.id
 		var rtname = (req.body.rtname.length > 0) ? req.body.rtname : "";
 		var borough = (req.body.borough.length > 0) ? req.body.borough : "";
 		var cuisine = (req.body.cuisine.length > 0) ? req.body.cuisine : "";
+
+		var photo = filename;
+	 	var mimetype = mimetype;
 
 		var street = (req.body.street.length > 0) ? req.body.street : "";
 		var building = (req.body.building.length > 0) ? req.body.building : "";
 		var zipcode = (req.body.zipcode.length > 0) ? req.body.zipcode : "";
 		var lat = (req.body.lat.length > 0) ? req.body.lat : "22.316151";
 		var lon = (req.body.lon.length > 0) ? req.body.lon : "114.180340";
-		global.r.update({_id: new ObjectID(id)},{$set:{restaurantName:rtname, borough:borough, cuisine:cuisine, address:{ street:street, building:building, zipcode:zipcode, coord:[lat,lon] }}}).then(function () {
-		        global.r.findOne({_id: new ObjectID(id)}, function(err, result) {
+		
+		var exif = {};
+		  var image = {};
+		  image['image'] = filename;
 
-			    console.log(result.restaurantName);
-			    res.render('new2',{r:result})
-			});	
+		  try {
+		    new ExifImage(image, function(error, exifData) {
+		      if (error) {
+			console.log('ExifImage: ' + error.message);
+		      }
+		      else {
+			exif['image'] = exifData.image;
+			exif['exif'] = exifData.exif;
+			exif['gps'] = exifData.gps;
+			console.log('Exif: ' + JSON.stringify(exif));
+		      }
+		    })
+		  } catch (error) {}
+
+		var form = {};
+		var form2 = {};
+		form['address'] = form2;
+			form2['street'] = street;
+			form2['zipcode'] = zipcode;
+			form2['building'] = building;
+			form2['coord'] = [lat,lon];
+		form['borough']= borough;
+		form['cuisine']= cuisine;
+		form['restaurantName']= rtname;
+	
+		if (typeof filename === 'undefined') {
+				
+
+		global.r.update({_id: new ObjectID(id)},{$set:form}).then(function () {
+		        	global.r.findOne({_id: new ObjectID(id)}, function(err, result) {
+				
+		
+			    
+					    console.log('no image upload' +result.restaurantName);
+					    res.render('new2',{r:result,username:req.session.username})
+				})
+
 		res.send('<script>alert("Finish");window.history.back()</script>')
-		})
+		   }) 
+		} else { 	
+			fs.readFile(filename, function(err,data) {
+				
+				
+				form['mimetype'] = mimetype;
+				form['image'] = new Buffer(data).toString('base64');
+				form['exif'] = exif;
+
+		global.r.update({_id: new ObjectID(id)},{$set:form}).then(function () {
+		        	global.r.findOne({_id: new ObjectID(id)}, function(err, result) {
+				
+		
+			    
+					    console.log('image upload'+result.restaurantName);
+					    res.render('new2',{r:result,username:req.session.username})
+				})
+
+		res.send('<script>alert("Finish(image)");window.history.back()</script>')
+		   }) 
+		})  //readFile
+	      } //else
 	})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 })
 
@@ -500,19 +592,21 @@ function add(req, resolve, reject) {
 
 function getData(req) {
 
-        const restaurantName = req.body.name || "OU Cafe"
-        const cuisine = req.body.cuisine || "null"
-        const borough = req.body.borough || "null"
-        const street = req.body.street || "null"
-        const building = req.body.building || "null"
-        const zipcode = req.body.zipcode || "null"
+        const restaurantName = req.body.name;
+        const cuisine = req.body.cuisine || "null";
+        const borough = req.body.borough || "null";
+        const street = req.body.street || "null";
+        const building = req.body.building || "null";
+        const zipcode = req.body.zipcode || "null";
         const lat = req.body.latitude || "22.316151";
         const lon = req.body.longtitude || "114.180340";
-
-
-        const userid = req.session.owner  || 'null'
+	const exif = {};
+	const image = 	"null";
+      	const mimetype = "null";
+        const userid = req.session.username || req.body.owner || req.body.username || req.body.userid ;
         const err = ' Not defined'
-
+	
+	
         assert.notEqual(restaurantName, undefined, 'name' + err)
         assert.notEqual(userid, undefined, 'owner' + err)
 
@@ -529,8 +623,10 @@ function getData(req) {
 	    borough,
 	    cuisine,
 	    restaurantName,
-	    userid
-	    
+	    userid,
+	    exif,
+	    image,
+	    mimetype
 	}
         
         return add
