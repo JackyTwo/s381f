@@ -90,7 +90,7 @@ input[type=submit]:hover {
 
    <div class="all2">
 			      <center >
-
+	
 	<img src="data:<%= r.mimetype %>;base64, <%= r.image %>" id="img">
 	
   </center> 		          
@@ -166,6 +166,12 @@ input[type=submit]:hover {
 		if (a != b) {myFunction();}
 		if (a != b) {myFunction2();}
 		var c = '<%=r.image%>';
+
+		if (d == '') { 
+			myFunction4();
+				}
+
+
 		 if (typeof c == 'undefined') { 
 			myFunction4();
 		}
