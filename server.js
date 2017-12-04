@@ -602,7 +602,7 @@ function getData(req) {
         const lon = req.body.longtitude || "114.180340";
 	const exif = {};
 	const image = 	"null";
-      	const mimetype = "null";
+      	const mimetype = "";
         const userid = req.session.username || req.body.owner || req.body.username || req.body.userid || req.body.user;
         const err = ' Not defined'
 	
