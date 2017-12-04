@@ -91,7 +91,7 @@ input[type=submit]:hover {
    <div class="all2">
 			      <center >
 
-	<img src="data:<%= r.mimetype %>;base64, <%= r.image %>">
+	<img src="data:<%= r.mimetype %>;base64, <%= r.image %>" id="img">
 	
   </center> 		          
 
@@ -133,7 +133,7 @@ input[type=submit]:hover {
     	<input class="button" type="submit" value="Edit" id="only">
 	</form>
 	
-	<form action="/delete" method="GET">
+	<form action="/restaurant/delete/<%= r._id%>" method="POST">
     	<input class="button" type="submit" value="Delete" id="only2">	</form>
 
 	<script>
@@ -154,8 +154,11 @@ input[type=submit]:hover {
 		    document.getElementById("img").style.visibility = "hidden";
 		}
 		
+		
 	var a = '<%=username %>';
         var b = '<%= r.userid %>';
+	var d = '<%=r.mimetype%>';
+	var e = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 	<% for (var i in r.grades) { %>
 		var c = '<%=r.grades[i] %>';
 		if (a == c) {myFunction3();}
@@ -166,6 +169,8 @@ input[type=submit]:hover {
 		 if (typeof c == 'undefined') { 
 			myFunction4();
 		}
+
+		if (d == e ) { myFunction4(); }
 	</script>
 
 </center> </div>

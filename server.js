@@ -603,7 +603,7 @@ function getData(req) {
 	const exif = {};
 	const image = 	"null";
       	const mimetype = "null";
-        const userid = req.session.username || req.body.owner || req.body.username || req.body.userid ;
+        const userid = req.session.username || req.body.owner || req.body.username || req.body.userid || req.body.user;
         const err = ' Not defined'
 	
 	
